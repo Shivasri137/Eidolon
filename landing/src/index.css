@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #030303;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-white antialiased overflow-x-hidden;
+  }
+}
