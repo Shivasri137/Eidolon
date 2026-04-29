@@ -14,9 +14,9 @@ function App() {
     return (
         <main className="min-h-screen bg-[#050505] text-white font-sans selection:bg-cyan-500/30">
             <HeroGeometric 
-                badge="Kokonut UI"
-                title1="Elevate Your"
-                title2="Digital Vision" 
+                badge="Eidolon"
+                title1="Step Inside"
+                title2="the Machine." 
             />
 
             <section className="max-w-5xl mx-auto px-6 py-12 -mt-24 relative z-20">
@@ -40,7 +40,7 @@ function App() {
 
             <footer className="text-center text-gray-600 text-sm py-12 pb-24">
                 <p>SYSTEM // KINETIC LOGIC FACTORY</p>
-                <p className="mt-2 text-xs opacity-50 text-indigo-400/50">Enhanced with Kokonut UI Geometry</p>
+                <p className="mt-2 text-xs opacity-50 text-indigo-400/50">Designed by shiva sri</p>
             </footer>
         </main>
     );
