@@ -106,6 +106,10 @@ export const useSpatialStore = create(
     play:  () => set({ isPlaying: true }),
     pause: () => set({ isPlaying: false }),
 
+    // ── View Mode ──────────────────────────────────────────────────────────
+    viewMode: "3D", // "2D" or "3D"
+    setViewMode: (mode) => set({ viewMode: mode }),
+
     // ── Reset for new run ──────────────────────────────────────────────────
     reset: () =>
       set((s) => ({

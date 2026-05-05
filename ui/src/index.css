@@ -625,3 +625,137 @@ html, body, #root {
     max-height: 40vh;
   }
 }
+
+/* ── Telemetry Dashboard (Bento Grid) ────────────────────────── */
+.workspace-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #030303;
+}
+
+.telemetry-dashboard {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  overflow-y: auto;
+  background: radial-gradient(circle at center, #0a0a1a 0%, #030303 100%);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-rows: 400px auto;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-card {
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.card-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.var-card { border-top: 3px solid var(--magenta); }
+.loop-card { border-top: 3px solid var(--amber); }
+.trace-card { 
+  grid-column: span 2;
+  border-top: 3px solid var(--cyan);
+  min-height: 300px;
+}
+
+.telemetry-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.telemetry-table th {
+  text-align: left;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.telemetry-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.active-trace {
+  background: rgba(0, 255, 255, 0.05);
+  border-left: 3px solid var(--cyan);
+  padding-left: 12px !important;
+}
+
+/* ── Vision Switcher ─────────────────────────────────────────── */
+.vision-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.vision-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vision-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.vision-btn.active {
+  background: var(--cyan);
+  color: #000;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .trace-card { grid-column: span 1; }
+}

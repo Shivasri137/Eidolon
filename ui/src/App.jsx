@@ -13,6 +13,8 @@ import ExplainerPanel from "./components/ExplainerPanel";
 import LineTracer from "./components/LineTracer";
 import FlowPipe from "./components/FlowPipe";
 import MetaphorLegend from "./components/MetaphorLegend";
+import TelemetryDashboard from "./components/TelemetryDashboard";
+import VisionSwitcher from "./components/VisionSwitcher";
 import { usePlayback } from "./hooks/usePlayback";
 
 // Register proximity tooltip for VR
@@ -45,16 +47,28 @@ export default function App() {
   const [code, setCode]           = useState(DEMO_CODE);
   const [sidebarOpen, setSidebar] = useState(true);
   const [grabbedFn, setGrabbedFn] = useState(null);
-  const [camZ, setCamZ]           = useState(0);
 
   const { sendRun } = useWebSocket();
 
-  const {
-    connected, sceneGraph, activeFunction, activeLineno, activeLocals,
-    loopIterations, exception, runEnd, setSourceCode, executionLog, currentFrameIdx, runId
+  const { 
+    executionLog, 
+    currentFrameIdx, 
+    sceneGraph, 
+    camZ, 
+    setCamZ,
+    viewMode,
+    setViewMode,
+    connected, activeFunction, activeLineno, activeLocals,
+    loopIterations, exception, runEnd, runId
   } = useSpatialStore();
 
   usePlayback(); // Initialize auto-playback engine
+
+  // Detect initial view mode from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("view") === "2d") setViewMode("2D");
+  }, []);
 
   // Dynamic Z-axis linear timeline for arbitrary user code
   const sortedNodes = [...sceneGraph.nodes].sort((a, b) => a.lineno - b.lineno);
@@ -150,62 +164,15 @@ export default function App() {
         )}
       </aside>
 
-      {/* ── A-Frame 3D Scene ────────────────────────────────────────── */}
-      <main className="scene-container">
-        <a-scene
-          embedded
-          vr-mode-ui="enabled:true"
-          renderer="antialias:true; colorManagement:true"
-          background="color:#050714"
-        >
-          {/* Ambient environment */}
-          <a-sky color="#030303" />
-          <a-light type="ambient" color="#111122" intensity="0.5" />
-          <a-light type="directional" position="-1 2 1" intensity="0.3" color="#3355ff" />
-          
-          {/* Isometric Camera with WASD and Look controls */}
-          <a-entity
-            id="camera-rig"
-            position={`8 6 ${camZ + 10}`}
-            rotation="-25 45 0"
+      {/* ── Main Workspace ─────────────────────────────────────────── */}
+      <div className="workspace-container">
+        {viewMode === "3D" ? (
+          <a-scene
+            embedded
+            vr-mode-ui="enabled:true"
+            renderer="antialias:true; colorManagement:true"
+            background="color:#050714"
           >
-            <a-camera look-controls="enabled: true" wasd-controls="enabled: true">
-               <a-cursor color="#00ffcc" fuse="false" />
-            </a-camera>
-          </a-entity>
-
-          {/* Black Fade-in Overlay */}
-          <a-plane
-            position="0 1.6 -1"
-            rotation="0 0 0"
-            width="10"
-            height="10"
-            color="#030303"
-            material="transparent:true; opacity:1"
-            animation="property: material.opacity; from: 1; to: 0; dur: 1500; easing: easeInOutQuad"
-            render-order="999"
-          />
-
-          {/* Starfield */}
-          <a-entity
-            particle-system="preset:stars; particleCount:2500; size:0.12; color:#ffffff,#aaccff"
-          />
-
-          {/* Camera rig */}
-          <a-entity id="camera-rig" position="0 1.6 6">
-            <a-camera look-controls wasd-controls>
-              <a-cursor color="#00ffcc" fuse="false" />
-            </a-camera>
-          </a-entity>
-
-          {/* Grid floor */}
-          <a-entity
-            geometry="primitive:plane; width:60; height:40"
-            material="color:#0a0a1a; opacity:0.55; transparent:true; wireframe:true"
-            rotation="-90 0 0"
-            position="0 -0.5 0"
-          />
-
           <a-entity key={runId}>
             {/* ── Function Gateways ──────────────────────────────────── */}
           {fnNodes.map((node) => (

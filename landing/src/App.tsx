@@ -4,7 +4,7 @@ import { GlowCard } from './components/ui/GlowCard';
 
 function App() {
     const handleHybridAccess = () => {
-        window.location.href = "http://localhost:5173/";
+        window.location.href = "http://localhost:5173/?view=2d";
     };
 
     const handleVRAccess = () => {
